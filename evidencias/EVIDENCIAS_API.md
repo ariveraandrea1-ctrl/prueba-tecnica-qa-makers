@@ -87,6 +87,25 @@ Validar el flujo de creación y consulta de usuarios de la API **reqres.in**: cr
 
 ---
 
+### CP-API-05 – Crear usuario sin API key (POST) · Caso negativo de seguridad
+
+| Campo | Detalle |
+|---|---|
+| **Request** | `POST https://reqres.in/api/users` |
+| **Headers** | `Content-Type: application/json` (**sin** `x-api-key`) |
+| **Body** | `{"name": "Test User", "job": "Automation Engineer"}` |
+| **Resultado esperado** | `401 Unauthorized` o `403 Forbidden`, según la documentación de la API, que exige `x-api-key` en todas las solicitudes |
+| **Resultado obtenido** | `201 Created`. Crea el usuario con `id: "382"` sin autenticación |
+| **Estado** | ❌ Falló |
+
+**Observaciones:** el endpoint acepta la solicitud sin clave de API. La respuesta incluye `"context": "legacy_success"`, lo que sugiere que este endpoint antiguo no aplica la validación de autenticación (ver **H-02**).
+
+![CP-API-05 Headers sin API key](capturas/05a_POST_sin_api_key_headers.png)
+
+![CP-API-05 Respuesta 201](capturas/05b_POST_sin_api_key_201.png)
+
+---
+
 ## 4. Hallazgos
 
 ### H-01 – El usuario creado con POST no se puede consultar con GET
@@ -99,9 +118,18 @@ Validar el flujo de creación y consulta de usuarios de la API **reqres.in**: cr
 | **Impacto** | No es posible validar de punta a punta que los datos enviados se guarden correctamente. |
 | **Recomendación** | En un ambiente real, validar contra una API con persistencia o usar las colecciones con almacenamiento de reqres.in. |
 
-### H-02 – Cambio en la autenticación de la API
+### H-02 – El endpoint permite crear usuarios sin autenticación
 
-reqres.in ahora exige el header `x-api-key` en todas las solicitudes. Se gestionó con una clave gratuita, que en la automatización se lee desde una **variable de entorno** para no exponerla en el repositorio.
+| Campo | Detalle |
+|---|---|
+| **Severidad** | Alta |
+| **Tipo** | Seguridad / Inconsistencia con la documentación |
+| **Descripción** | La documentación de reqres.in indica que todas las solicitudes requieren el header `x-api-key`. Sin embargo, `POST /users` responde `201 Created` aunque no se envíe la clave. |
+| **Pasos para reproducir** | 1. Enviar `POST https://reqres.in/api/users` con el body de prueba. 2. No incluir el header `x-api-key`. 3. Observar la respuesta. |
+| **Resultado esperado** | `401 Unauthorized` o `403 Forbidden` |
+| **Resultado obtenido** | `201 Created` con `"context": "legacy_success"` |
+| **Impacto** | En un sistema real, cualquier persona podría crear registros sin autenticarse. |
+| **Recomendación** | Aplicar la validación de `x-api-key` también en los endpoints antiguos (legacy), o actualizar la documentación si este comportamiento es intencional. |
 
 ### H-03 – Inconsistencia en el tipo de dato del `id`
 
@@ -133,3 +161,6 @@ reqres.in ahora exige el header `x-api-key` en todas las solicitudes. Se gestion
 | CP-API-02 | Consultar usuario creado | 200 | 404 | ❌ |
 | CP-API-03 | Consultar usuario existente | 200 | 200 | ✅ |
 | CP-API-04 | Consultar usuario inexistente | 404 | 404 | ✅ |
+| CP-API-05 | Crear usuario sin API key | 401 / 403 | 201 | ❌ |
+
+**Total:** 5 casos · 3 pasaron · 2 fallaron (1 por limitación del entorno, 1 por hallazgo de seguridad).
