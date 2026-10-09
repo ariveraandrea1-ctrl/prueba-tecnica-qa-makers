@@ -16,6 +16,10 @@ Solución de la prueba técnica para el rol de **QA Full Stack**, organizada en 
 
 📄 Reporte HTML completo de la ejecución: [`evidencias/reporte_completo.html`](evidencias/reporte_completo.html) *(descárgalo y ábrelo en el navegador)*
 
+📋 Tablero de seguimiento de bugs: [GitHub Projects – Prueba técnica QA](https://github.com/users/ariveraandrea1-ctrl/projects/1)
+
+🐞 Bugs y hallazgos registrados como [Issues](https://github.com/ariveraandrea1-ctrl/prueba-tecnica-qa-makers/issues)
+
 ---
 
 ## 🗂️ Estructura del proyecto
@@ -172,4 +176,5 @@ Importa [`api/postman/reqres_collection.json`](api/postman/reqres_collection.jso
 - **Escenarios en Gherkin** (BDD), incluido un esquema con tabla de ejemplos para los valores límite.
 
 📄 [`funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md`](funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md)
+
 🥒 [`funcional/makerspay_envio_dinero.feature`](funcional/makerspay_envio_dinero.feature)
