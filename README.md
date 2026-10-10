@@ -1,5 +1,7 @@
 # Prueba técnica QA Full Stack – Makers Solutions
 
+[![Pruebas](https://github.com/ariveraandrea1-ctrl/prueba-tecnica-qa-makers/actions/workflows/pruebas.yml/badge.svg)](https://github.com/ariveraandrea1-ctrl/prueba-tecnica-qa-makers/actions/workflows/pruebas.yml)
+
 Andrea Rivera Amador · [LinkedIn](https://linkedin.com/in/andrea-rivera-qa) · Octubre 2026
 
 Este repositorio contiene mi solución a la prueba técnica para el cargo de QA Full Stack. La prueba tenía tres partes y las organicé en carpetas separadas:
@@ -85,6 +87,8 @@ REQRES_API_KEY=tu_clave_de_reqres
 ```
 
 El archivo `.env` está en el `.gitignore`, así que la clave no se sube al repositorio.
+
+Las pruebas también corren solas en GitHub Actions cada vez que hay un push a `main` (archivo `.github/workflows/pruebas.yml`). La clave de reqres se guarda como secret del repositorio y la UI corre en modo headless. El resultado se ve en la pestaña Actions y el reporte HTML queda como artefacto de cada ejecución.
 
 Para correr las pruebas:
 
