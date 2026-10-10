@@ -56,36 +56,36 @@ Se dividen los datos de entrada en grupos que el sistema debería tratar igual, 
 
 | Clase | Rango / ejemplo | Tipo |
 |---|---|---|
-| CE-M1 | Menor a $5.000 (ej. $3.000) | ❌ Inválida |
-| CE-M2 | Entre $5.000 y $2.000.000 (ej. $50.000) | ✅ Válida |
-| CE-M3 | Mayor a $2.000.000 (ej. $3.000.000) | ❌ Inválida |
-| CE-M4 | Mayor al saldo disponible | ❌ Inválida |
-| CE-M5 | Cero, negativo, decimales o texto (ej. $0, -$10.000, $5.000,50, "abc") | ❌ Inválida |
+| CE-M1 | Menor a $5.000 (ej. $3.000) | Inválida |
+| CE-M2 | Entre $5.000 y $2.000.000 (ej. $50.000) | Válida |
+| CE-M3 | Mayor a $2.000.000 (ej. $3.000.000) | Inválida |
+| CE-M4 | Mayor al saldo disponible | Inválida |
+| CE-M5 | Cero, negativo, decimales o texto (ej. $0, -$10.000, $5.000,50, "abc") | Inválida |
 
 **Campo celular del destinatario:**
 
 | Clase | Ejemplo | Tipo |
 |---|---|---|
-| CE-C1 | Celular registrado de otro usuario | ✅ Válida |
-| CE-C2 | Celular con formato válido pero no registrado | ❌ Inválida |
-| CE-C3 | Celular propio del remitente | ❌ Inválida |
-| CE-C4 | Formato inválido (9 dígitos, letras, no empieza por 3) | ❌ Inválida |
-| CE-C5 | Campo vacío | ❌ Inválida |
+| CE-C1 | Celular registrado de otro usuario | Válida |
+| CE-C2 | Celular con formato válido pero no registrado | Inválida |
+| CE-C3 | Celular propio del remitente | Inválida |
+| CE-C4 | Formato inválido (9 dígitos, letras, no empieza por 3) | Inválida |
+| CE-C5 | Campo vacío | Inválida |
 
 #### b) Análisis de valores límite
 Los errores suelen aparecer justo en los bordes de un rango, así que se prueba el límite, el valor anterior y el siguiente.
 
 | Límite | Valor | Resultado esperado |
 |---|---|---|
-| Mínimo | $4.999 | ❌ Rechazado |
-| Mínimo | $5.000 | ✅ Permitido |
-| Mínimo | $5.001 | ✅ Permitido |
-| Máximo | $1.999.999 | ✅ Permitido |
-| Máximo | $2.000.000 | ✅ Permitido |
-| Máximo | $2.000.001 | ❌ Rechazado |
-| Saldo (ej. $100.000) | $99.999 | ✅ Permitido |
-| Saldo (ej. $100.000) | $100.000 (todo el saldo) | ✅ Permitido |
-| Saldo (ej. $100.000) | $100.001 | ❌ Rechazado |
+| Mínimo | $4.999 | Rechazado |
+| Mínimo | $5.000 | Permitido |
+| Mínimo | $5.001 | Permitido |
+| Máximo | $1.999.999 | Permitido |
+| Máximo | $2.000.000 | Permitido |
+| Máximo | $2.000.001 | Rechazado |
+| Saldo (ej. $100.000) | $99.999 | Permitido |
+| Saldo (ej. $100.000) | $100.000 (todo el saldo) | Permitido |
+| Saldo (ej. $100.000) | $100.001 | Rechazado |
 
 #### c) Tabla de decisión
 Combina las condiciones de negocio para ver el resultado de cada combinación. **Se lee por columnas:** cada columna (R1 a R6) es una situación distinta.
@@ -97,7 +97,7 @@ Combina las condiciones de negocio para ver el resultado de cada combinación. *
 | Destinatario ≠ remitente | Sí | – | – | No | Sí | Sí |
 | Monto entre $5.000 y $2.000.000 | Sí | – | – | – | No | Sí |
 | Monto ≤ saldo disponible | Sí | – | – | – | – | No |
-| **Resultado** | ✅ Envío exitoso | ❌ Pide iniciar sesión | ❌ Destinatario no registrado | ❌ Envío a sí mismo | ❌ Monto fuera de rango | ❌ Saldo insuficiente |
+| **Resultado** | Envío exitoso | Pide iniciar sesión | Destinatario no registrado | Envío a sí mismo | Monto fuera de rango | Saldo insuficiente |
 
 *(–) = no se evalúa, porque una condición anterior ya rechazó la transacción.*
 

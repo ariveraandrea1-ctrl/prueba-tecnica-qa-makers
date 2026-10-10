@@ -31,7 +31,7 @@ Validar el flujo de creación y consulta de usuarios de la API **reqres.in**: cr
 | **Body** | `{"name": "Test User", "job": "Automation Engineer"}` |
 | **Resultado esperado** | `201 Created`, con `name`, `job` e `id` en la respuesta |
 | **Resultado obtenido** | `201 Created`. Devuelve `name`, `job`, `id: "365"` y `createdAt` |
-| **Estado** | ✅ Pasó |
+| **Estado** | Pasó |
 
 **Observaciones:** el `id` se devuelve como texto (`"365"`) y no como número. La respuesta indica que es un endpoint de demostración de solo lectura.
 
@@ -47,7 +47,7 @@ Validar el flujo de creación y consulta de usuarios de la API **reqres.in**: cr
 | **Headers** | `x-api-key` |
 | **Resultado esperado** | `200 OK`, con `name: "Test User"` y `job: "Automation Engineer"` |
 | **Resultado obtenido** | `404 Not Found`, body vacío `{}` |
-| **Estado** | ❌ Falló (limitación del entorno) |
+| **Estado** | Falló (limitación del entorno) |
 
 **Observaciones:** reqres.in es una API de prueba (mock). El `POST` simula la creación, pero **no guarda el usuario**, por lo que el `GET` posterior no lo encuentra. Ver hallazgo **H-01**.
 
@@ -63,7 +63,7 @@ Validar el flujo de creación y consulta de usuarios de la API **reqres.in**: cr
 | **Headers** | `x-api-key` |
 | **Resultado esperado** | `200 OK`, con los datos del usuario (`id`, `email`, `first_name`, `last_name`, `avatar`) |
 | **Resultado obtenido** | `200 OK`. Devuelve el usuario `id: 2` (Janet Weaver) con todos sus campos |
-| **Estado** | ✅ Pasó |
+| **Estado** | Pasó |
 
 **Observaciones:** este caso confirma que el endpoint `GET /users/{id}` funciona correctamente con usuarios existentes. Por lo tanto, el `404` del CP-API-02 se debe a que el usuario creado con `POST` no se guarda, y no a una falla del `GET`. Además, aquí el `id` se devuelve como **número** (`2`), mientras que en el `POST` se devuelve como **texto** (`"365"`): hay una inconsistencia en el tipo de dato entre endpoints (ver **H-03**).
 
@@ -79,7 +79,7 @@ Validar el flujo de creación y consulta de usuarios de la API **reqres.in**: cr
 | **Headers** | `x-api-key` |
 | **Resultado esperado** | `404 Not Found`, ya que el usuario no existe |
 | **Resultado obtenido** | `404 Not Found`, body vacío `{}` |
-| **Estado** | ✅ Pasó |
+| **Estado** | Pasó |
 
 **Observaciones:** la API responde con el código correcto, pero el body llega vacío, sin un mensaje que explique el error (ver **H-04**).
 
@@ -96,7 +96,7 @@ Validar el flujo de creación y consulta de usuarios de la API **reqres.in**: cr
 | **Body** | `{"name": "Test User", "job": "Automation Engineer"}` |
 | **Resultado esperado** | `401 Unauthorized` o `403 Forbidden`, según la documentación de la API, que exige `x-api-key` en todas las solicitudes |
 | **Resultado obtenido** | `201 Created`. Crea el usuario con `id: "382"` sin autenticación |
-| **Estado** | ❌ Falló |
+| **Estado** | Falló |
 
 **Observaciones:** el endpoint acepta la solicitud sin clave de API. La respuesta incluye `"context": "legacy_success"`, lo que sugiere que este endpoint antiguo no aplica la validación de autenticación (ver **H-02**).
 
@@ -157,10 +157,10 @@ Validar el flujo de creación y consulta de usuarios de la API **reqres.in**: cr
 
 | ID | Caso | Esperado | Obtenido | Estado |
 |---|---|---|---|---|
-| CP-API-01 | Crear usuario | 201 | 201 | ✅ |
-| CP-API-02 | Consultar usuario creado | 200 | 404 | ❌ |
-| CP-API-03 | Consultar usuario existente | 200 | 200 | ✅ |
-| CP-API-04 | Consultar usuario inexistente | 404 | 404 | ✅ |
-| CP-API-05 | Crear usuario sin API key | 401 / 403 | 201 | ❌ |
+| CP-API-01 | Crear usuario | 201 | 201 | Pasó |
+| CP-API-02 | Consultar usuario creado | 200 | 404 | Falló |
+| CP-API-03 | Consultar usuario existente | 200 | 200 | Pasó |
+| CP-API-04 | Consultar usuario inexistente | 404 | 404 | Pasó |
+| CP-API-05 | Crear usuario sin API key | 401 / 403 | 201 | Falló |
 
 **Total:** 5 casos · 3 pasaron · 2 fallaron (1 por limitación del entorno, 1 por hallazgo de seguridad).

@@ -1,35 +1,174 @@
-ID,Módulo,Caso de prueba,Precondiciones,Pasos,Datos de prueba,Resultado esperado,Resultado obtenido,Estado,Tipo de ejecución,Fecha de ejecución,Evidencia,Hallazgo / Issue,Prioridad
-CP-API-01,API,Crear usuario (POST),Clave x-api-key válida,POST /api/users,name: Test User · job: Automation Engineer,"201 Created con name, job e id","201 Created · id ""365"" · createdAt",Pasó,Manual (Postman) + Automatizada (pytest),09/10/2026,evidencias/EVIDENCIAS_API.md · capturas/01,H-03 (#3),Alta
-CP-API-02,API,Consultar usuario creado (GET),CP-API-01 ejecutado,1. POST /api/users 2. Extraer id 3. GET /api/users/{id},id devuelto por el POST,200 OK con name y job iguales a los enviados,404 Not Found · body {},Falló,"Manual (Postman) + Automatizada (pytest, xfail)",09/10/2026,evidencias/EVIDENCIAS_API.md · capturas/02,H-01 (#2),Alta
-CP-API-03,API,Consultar usuario existente (GET),Clave x-api-key válida,GET /api/users/2,id = 2,"200 OK con id, email, first_name, last_name, avatar",200 OK · Janet Weaver con todos sus campos,Pasó,Manual (Postman) + Automatizada (pytest),09/10/2026,evidencias/EVIDENCIAS_API.md · capturas/03,H-03 (#3),Media
-CP-API-04,API,Consultar usuario inexistente (GET),Clave x-api-key válida,GET /api/users/23 y /api/users/999,id = 23 · id = 999,404 Not Found,404 Not Found · body {},Pasó,Manual (Postman) + Automatizada (pytest),09/10/2026,evidencias/EVIDENCIAS_API.md · capturas/04,H-04 (#4),Media
-CP-API-05,API,Crear usuario sin API key (POST),Sin header x-api-key,POST /api/users sin x-api-key,name: Test User · job: Automation Engineer,401 Unauthorized o 403 Forbidden,201 Created · context: legacy_success,Falló,"Manual (Postman) + Automatizada (pytest, xfail)",09/10/2026,evidencias/EVIDENCIAS_API.md · capturas/05a y 05b,H-02 (#1),Alta
-CP-UI-01,Automatización UI (SauceDemo),Login exitoso,Página de login de saucedemo.com abierta,1. Ingresar usuario 2. Ingresar contraseña 3. Clic en Login,standard_user / secret_sauce,Redirige al inventario con título Products,Igual al esperado,Pasó,Automatizada (Selenium + pytest),09/10/2026,evidencias/capturas/ui/test_login_exitoso_con_credenciales_validas.png,—,Alta
-CP-UI-02,Automatización UI (SauceDemo),Login con contraseña incorrecta,Página de login de saucedemo.com abierta,1. Ingresar usuario 2. Ingresar contraseña 3. Clic en Login,standard_user / clave_incorrecta,Mensaje: Username and password do not match... · sin acceso,Igual al esperado,Pasó,Automatizada (Selenium + pytest),09/10/2026,evidencias/capturas/ui/test_login_fallido_con_contrasena_incorrecta.png,—,Alta
-CP-UI-03a,Automatización UI (SauceDemo),Campos obligatorios: ambos vacíos,Página de login de saucedemo.com abierta,1. Ingresar usuario 2. Ingresar contraseña 3. Clic en Login,usuario vacío / contraseña vacía,Mensaje: Username is required,Igual al esperado,Pasó,Automatizada (Selenium + pytest),09/10/2026,evidencias/capturas/ui/test_validacion_campos_obligatorios[ambos_vacios].png,—,Alta
-CP-UI-03b,Automatización UI (SauceDemo),Campos obligatorios: usuario vacío,Página de login de saucedemo.com abierta,1. Ingresar usuario 2. Ingresar contraseña 3. Clic en Login,usuario vacío / secret_sauce,Mensaje: Username is required,Igual al esperado,Pasó,Automatizada (Selenium + pytest),09/10/2026,evidencias/capturas/ui/test_validacion_campos_obligatorios[usuario_vacio].png,—,Alta
-CP-UI-03c,Automatización UI (SauceDemo),Campos obligatorios: contraseña vacía,Página de login de saucedemo.com abierta,1. Ingresar usuario 2. Ingresar contraseña 3. Clic en Login,standard_user / contraseña vacía,Mensaje: Password is required,Igual al esperado,Pasó,Automatizada (Selenium + pytest),09/10/2026,evidencias/capturas/ui/test_validacion_campos_obligatorios[contrasena_vacia].png,—,Alta
-CP-UI-04,Automatización UI (SauceDemo),Usuario bloqueado (adicional),Página de login de saucedemo.com abierta,1. Ingresar usuario 2. Ingresar contraseña 3. Clic en Login,locked_out_user / secret_sauce,"Mensaje: Sorry, this user has been locked out.",Igual al esperado,Pasó,Automatizada (Selenium + pytest),09/10/2026,evidencias/capturas/ui/test_login_usuario_bloqueado.png,—,Media
-CP-UI-05,Automatización UI (SauceDemo),Usuario inexistente (adicional),Página de login de saucedemo.com abierta,1. Ingresar usuario 2. Ingresar contraseña 3. Clic en Login,usuario_que_no_existe / secret_sauce,Mensaje: Username and password do not match...,Igual al esperado,Pasó,Automatizada (Selenium + pytest),09/10/2026,evidencias/capturas/ui/test_login_usuario_inexistente.png,—,Media
-CP-F-01,Funcional (MakersPay),Enviar dinero exitosamente a otro usuario registrado,"Ana autenticada, saldo $100.000","1. Ir a ""Enviar dinero"" 2. Ingresar celular 3. Ingresar monto 4. Confirmar",3104445566 · $20.000,Mensaje de envío exitoso. La transacción queda en estado *Exitosa*,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
-CP-F-02,Funcional (MakersPay),Intentar enviar dinero sin haber iniciado sesión,Usuario sin sesión iniciada,"1. Abrir la app 2. Intentar entrar a ""Enviar dinero""",—,La app pide iniciar sesión y no permite acceder al envío,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
-CP-F-03,Funcional (MakersPay),Enviar el monto mínimo permitido,"Ana autenticada, saldo $100.000",Pasos 1 a 4 de CP-F-01,3104445566 · $5.000,Envío exitoso. Saldo de Ana: $95.000,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
-CP-F-04,Funcional (MakersPay),Enviar el monto mínimo permitido,"Ana autenticada, saldo $100.000",Pasos 1 a 4 de CP-F-01,3104445566 · $5.001,Envío exitoso. Saldo de Ana: $94.999,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Media
-CP-F-05,Funcional (MakersPay),Enviar el monto máximo permitido,"Ana autenticada, saldo $3.000.000",Pasos 1 a 4 de CP-F-01,3104445566 · $2.000.000,Envío exitoso. Saldo de Ana: $1.000.000,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
-CP-F-06,Funcional (MakersPay),Enviar el monto máximo permitido,"Ana autenticada, saldo $3.000.000",Pasos 1 a 4 de CP-F-01,3104445566 · $1.999.999,Envío exitoso. Saldo de Ana: $1.000.001,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Media
-CP-F-07,Funcional (MakersPay),Intentar enviar menos del monto mínimo,"Ana autenticada, saldo $100.000",Pasos 1 a 4 de CP-F-01,3104445566 · $4.999,Mensaje: el monto mínimo es $5.000. Ningún saldo cambia,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
-CP-F-08,Funcional (MakersPay),Intentar enviar más del monto máximo,"Ana autenticada, saldo $3.000.000",Pasos 1 a 4 de CP-F-01,3104445566 · $2.000.001,Mensaje: el monto máximo es $2.000.000. Ningún saldo cambia,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
-CP-F-09,Funcional (MakersPay),Enviar un monto igual al saldo disponible,"Ana autenticada, saldo $100.000",Pasos 1 a 4 de CP-F-01,3104445566 · $100.000,Envío exitoso. Saldo de Ana: $0,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Media
-CP-F-10,Funcional (MakersPay),Intentar enviar un monto mayor al saldo disponible,"Ana autenticada, saldo $100.000",Pasos 1 a 4 de CP-F-01,3104445566 · $100.001,Mensaje de saldo insuficiente. Ningún saldo cambia,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
-CP-F-11,Funcional (MakersPay),Verificar el descuento del saldo del remitente tras un envío exitoso,CP-F-01 ejecutado con éxito,1. Ir a la pantalla principal de Ana 2. Consultar el saldo,—,Saldo de Ana: $80.000 ($100.000 − $20.000),"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
-CP-F-12,Funcional (MakersPay),Verificar el aumento del saldo del destinatario tras un envío exitoso,CP-F-01 ejecutado con éxito,1. Iniciar sesión como Carlos 2. Consultar el saldo,—,Saldo de Carlos: $70.000 ($50.000 + $20.000),"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
-CP-F-13,Funcional (MakersPay),Verificar que el movimiento aparezca en el historial de ambos usuarios,CP-F-01 ejecutado con éxito,1. Revisar el historial de Ana 2. Revisar el historial de Carlos,—,Ana: movimiento de salida por $20.000 hacia 3104445566. Carlos: movimiento de entrada por $20.000 desde 3001112233. Ambos con fecha y hora,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Media
-CP-F-14,Funcional (MakersPay),Verificar que una transacción fallida no afecte ningún saldo,"Ana autenticada, saldo $100.000",1. Ejecutar CP-F-10 (envío que falla) 2. Consultar el saldo y el historial de Ana y de Carlos,3104445566 · $100.001,"Saldos sin cambios (Ana $100.000, Carlos $50.000). No aparece ningún movimiento nuevo en los historiales","N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
-CP-F-15,Funcional (MakersPay),Intentar enviar dinero al propio número de celular,"Ana autenticada, saldo $100.000",Pasos 1 a 4 de CP-F-01,3001112233 (propio) · $20.000,Mensaje: no puedes enviarte dinero a ti mismo. Ningún saldo cambia,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
-CP-F-16,Funcional (MakersPay),Intentar enviar dinero a un número no registrado,"Ana autenticada, saldo $100.000",Pasos 1 a 4 de CP-F-01,3209998877 · $20.000,Mensaje: el número no está registrado en MakersPay. Ningún saldo cambia,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
-CP-F-17,Funcional (MakersPay),Intentar enviar a un celular con formato inválido,Ana autenticada,Pasos 1 y 2 de CP-F-01 con cada dato,300123456 (9 dígitos) · 30011122ab · 2001112233 · campo vacío,Mensaje de formato de celular inválido en cada caso. No permite continuar,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Media
-CP-F-18,Funcional (MakersPay),"Intentar enviar montos no válidos (cero, negativos, decimales o texto)",Ana autenticada,Pasos 1 a 3 de CP-F-01 con cada dato,"$0 · −$10.000 · $5.000,50 · ""abc""",El campo rechaza el valor o muestra mensaje de monto inválido. No permite continuar,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Media
-CP-F-19,Funcional (MakersPay),"Tocar ""Enviar"" dos veces seguidas","Ana autenticada, saldo $100.000","1. Completar los pasos 1 a 3 de CP-F-01 2. Tocar ""Confirmar"" dos veces seguidas muy rápido",3104445566 · $20.000,Se procesa una sola transacción. Saldo de Ana: $80.000. Un solo movimiento en el historial,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
-CP-F-20,Funcional (MakersPay),Perder la conexión a internet al confirmar el envío,"Ana autenticada, saldo $100.000","1. Completar los pasos 1 a 3 de CP-F-01 2. Activar el modo avión 3. Tocar ""Confirmar"" 4. Desactivar el modo avión",3104445566 · $20.000,Mensaje claro de falta de conexión. Los saldos quedan consistentes: o la transacción se completa en ambos lados o no se realiza en ninguno (ver P-05),"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
-CP-F-21,Funcional (MakersPay),Intentar enviar con la sesión expirada,Ana autenticada y sesión expirada antes de confirmar,"1. Completar los pasos 1 a 3 de CP-F-01 2. Esperar a que expire la sesión 3. Tocar ""Confirmar""",3104445566 · $20.000,La app pide iniciar sesión de nuevo y la transacción no se procesa,"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Media
-CP-F-22,Funcional (MakersPay),Enviar dinero desde distintas plataformas y navegadores,"Ana autenticada, saldo $100.000, en cada plataforma","Pasos 1 a 4 de CP-F-01 en: Android, iOS, Chrome, Safari",3104445566 · $20.000,El envío es exitoso y se comporta igual en todas las plataformas. Saldo de Ana: $80.000 en cada ejecución (restaurando el saldo entre pruebas),"N/A: producto ficticio, caso diseñado",No ejecutado,Diseñado (pendiente de ejecución),—,funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md,—,Alta
+Módulo,No,Caso de Prueba,Datos de la prueba,Pasos,Resultado esperado,Resultado obtenido,Estatus,Enlace al defecto
+API reqres,1,Verificar que el sistema cree un usuario con datos válidos y devuelva su id,"Headers: x-api-key, Content-Type: application/json
+
+Body:
+{
+  ""name"": ""Test User"",
+  ""job"": ""Automation Engineer""
+}","1. Seleccionar el método POST en Postman.
+2. Enviar la solicitud a: https://reqres.in/api/users
+3. Enviar el body con name y job.
+4. Ejecutar la solicitud.","- 201 Created
+- La respuesta trae name, job, id y createdAt","- 201 Created
+- Devuelve name, job, id ""365"" y createdAt
+- Observación: el id llega como texto (H-03)",Passed,
+API reqres,2,Verificar que el usuario creado con POST se pueda consultar con GET usando el id devuelto,"Path params: id = id devuelto por el POST (365)
+
+Headers: x-api-key","1. Ejecutar el POST del caso 1 y copiar el id.
+2. Seleccionar el método GET.
+3. Enviar la solicitud a: https://reqres.in/api/users/365
+4. Ejecutar la solicitud.","- 200 OK
+- name: ""Test User""
+- job: ""Automation Engineer""","- 404 Not Found
+- Body vacío {}
+- reqres.in no guarda los usuarios creados",Failed,https://github.com/ariveraandrea1-ctrl/prueba-tecnica-qa-makers/issues/2
+API reqres,3,Verificar que el sistema devuelva los datos de un usuario existente,"Path params: id = 2
+
+Headers: x-api-key","1. Seleccionar el método GET.
+2. Enviar la solicitud a: https://reqres.in/api/users/2
+3. Ejecutar la solicitud.","- 200 OK
+- La respuesta trae id, email, first_name, last_name y avatar","- 200 OK
+- Devuelve a Janet Weaver con todos sus campos
+- Observación: el id llega como número (H-03)",Passed,
+API reqres,4,Verificar que el sistema responda 404 al consultar un usuario que no existe (id = 23),"Path params: id = 23
+
+Headers: x-api-key","1. Seleccionar el método GET.
+2. Enviar la solicitud a: https://reqres.in/api/users/23
+3. Ejecutar la solicitud.",404 Not Found,"- 404 Not Found
+- Body vacío {}, sin mensaje de error (H-04)",Passed,
+API reqres,5,Verificar que el sistema responda 404 al consultar un id muy grande (999),"Path params: id = 999
+
+Headers: x-api-key","1. Seleccionar el método GET.
+2. Enviar la solicitud a: https://reqres.in/api/users/999
+3. Ejecutar la solicitud.",404 Not Found,404 Not Found,Passed,
+API reqres,6,Verificar que el sistema rechace la creación de un usuario sin el header x-api-key,"Headers: Content-Type: application/json (sin x-api-key)
+
+Body:
+{
+  ""name"": ""Test User"",
+  ""job"": ""Automation Engineer""
+}","1. Seleccionar el método POST.
+2. Desmarcar el header x-api-key.
+3. Enviar la solicitud a: https://reqres.in/api/users
+4. Ejecutar la solicitud.",401 Unauthorized o 403 Forbidden,"- 201 Created
+- Crea el usuario (id ""382"")
+- ""context"": ""legacy_success""",Failed,https://github.com/ariveraandrea1-ctrl/prueba-tecnica-qa-makers/issues/1
+Login SauceDemo,1,Verificar que el usuario pueda iniciar sesión con credenciales válidas,"Usuario: standard_user
+Contraseña: secret_sauce","1. Abrir https://www.saucedemo.com
+2. Ingresar el usuario.
+3. Ingresar la contraseña.
+4. Hacer clic en Login.","- Redirige a la página de inventario
+- El título es ""Products""","- Redirige a /inventory.html
+- El título es ""Products""",Passed,
+Login SauceDemo,2,Verificar que el sistema no permita iniciar sesión con una contraseña incorrecta,"Usuario: standard_user
+Contraseña: clave_incorrecta","1. Abrir https://www.saucedemo.com
+2. Ingresar el usuario.
+3. Ingresar la contraseña.
+4. Hacer clic en Login.","- Mensaje: ""Epic sadface: Username and password do not match any user in this service""
+- No permite el acceso","- Muestra el mensaje esperado
+- Permanece en la página de login",Passed,
+Login SauceDemo,3,Verificar que el sistema pida el usuario cuando ambos campos están vacíos,"Usuario: (vacío)
+Contraseña: (vacío)","1. Abrir https://www.saucedemo.com
+2. Ingresar el usuario.
+3. Ingresar la contraseña.
+4. Hacer clic en Login.","Mensaje: ""Epic sadface: Username is required""",Muestra el mensaje esperado,Passed,
+Login SauceDemo,4,Verificar que el sistema pida el usuario cuando solo la contraseña está diligenciada,"Usuario: (vacío)
+Contraseña: secret_sauce","1. Abrir https://www.saucedemo.com
+2. Ingresar el usuario.
+3. Ingresar la contraseña.
+4. Hacer clic en Login.","Mensaje: ""Epic sadface: Username is required""",Muestra el mensaje esperado,Passed,
+Login SauceDemo,5,Verificar que el sistema pida la contraseña cuando solo el usuario está diligenciado,"Usuario: standard_user
+Contraseña: (vacío)","1. Abrir https://www.saucedemo.com
+2. Ingresar el usuario.
+3. Ingresar la contraseña.
+4. Hacer clic en Login.","Mensaje: ""Epic sadface: Password is required""",Muestra el mensaje esperado,Passed,
+Login SauceDemo,6,Verificar que un usuario bloqueado no pueda iniciar sesión,"Usuario: locked_out_user
+Contraseña: secret_sauce","1. Abrir https://www.saucedemo.com
+2. Ingresar el usuario.
+3. Ingresar la contraseña.
+4. Hacer clic en Login.","Mensaje: ""Epic sadface: Sorry, this user has been locked out.""",Muestra el mensaje esperado,Passed,
+Login SauceDemo,7,Verificar que un usuario que no existe no pueda iniciar sesión,"Usuario: usuario_que_no_existe
+Contraseña: secret_sauce","1. Abrir https://www.saucedemo.com
+2. Ingresar el usuario.
+3. Ingresar la contraseña.
+4. Hacer clic en Login.","Mensaje: ""Epic sadface: Username and password do not match any user in this service""",Muestra el mensaje esperado,Passed,
+MakersPay,1,Verificar: enviar dinero exitosamente a otro usuario registrado,"Precondiciones: Ana autenticada, saldo $100.000
+
+Datos: 3104445566 · $20.000","1. Ir a ""Enviar dinero""
+2. Ingresar celular
+3. Ingresar monto
+4. Confirmar",Mensaje de envío exitoso. La transacción queda en estado *Exitosa*,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,2,Verificar: intentar enviar dinero sin haber iniciado sesión,"Precondiciones: Usuario sin sesión iniciada
+
+Datos: —","1. Abrir la app
+2. Intentar entrar a ""Enviar dinero""",La app pide iniciar sesión y no permite acceder al envío,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,3,Verificar: enviar el monto mínimo permitido,"Precondiciones: Ana autenticada, saldo $100.000
+
+Datos: 3104445566 · $5.000",Pasos 1 a 4 de CP-F-01,Envío exitoso. Saldo de Ana: $95.000,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,4,Verificar: enviar el monto mínimo permitido,"Precondiciones: Ana autenticada, saldo $100.000
+
+Datos: 3104445566 · $5.001",Pasos 1 a 4 de CP-F-01,Envío exitoso. Saldo de Ana: $94.999,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,5,Verificar: enviar el monto máximo permitido,"Precondiciones: Ana autenticada, saldo $3.000.000
+
+Datos: 3104445566 · $2.000.000",Pasos 1 a 4 de CP-F-01,Envío exitoso. Saldo de Ana: $1.000.000,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,6,Verificar: enviar el monto máximo permitido,"Precondiciones: Ana autenticada, saldo $3.000.000
+
+Datos: 3104445566 · $1.999.999",Pasos 1 a 4 de CP-F-01,Envío exitoso. Saldo de Ana: $1.000.001,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,7,Verificar: intentar enviar menos del monto mínimo,"Precondiciones: Ana autenticada, saldo $100.000
+
+Datos: 3104445566 · $4.999",Pasos 1 a 4 de CP-F-01,Mensaje: el monto mínimo es $5.000. Ningún saldo cambia,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,8,Verificar: intentar enviar más del monto máximo,"Precondiciones: Ana autenticada, saldo $3.000.000
+
+Datos: 3104445566 · $2.000.001",Pasos 1 a 4 de CP-F-01,Mensaje: el monto máximo es $2.000.000. Ningún saldo cambia,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,9,Verificar: enviar un monto igual al saldo disponible,"Precondiciones: Ana autenticada, saldo $100.000
+
+Datos: 3104445566 · $100.000",Pasos 1 a 4 de CP-F-01,Envío exitoso. Saldo de Ana: $0,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,10,Verificar: intentar enviar un monto mayor al saldo disponible,"Precondiciones: Ana autenticada, saldo $100.000
+
+Datos: 3104445566 · $100.001",Pasos 1 a 4 de CP-F-01,Mensaje de saldo insuficiente. Ningún saldo cambia,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,11,Verificar: verificar el descuento del saldo del remitente tras un envío exitoso,"Precondiciones: CP-F-01 ejecutado con éxito
+
+Datos: —","1. Ir a la pantalla principal de Ana
+2. Consultar el saldo",Saldo de Ana: $80.000 ($100.000 − $20.000),No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,12,Verificar: verificar el aumento del saldo del destinatario tras un envío exitoso,"Precondiciones: CP-F-01 ejecutado con éxito
+
+Datos: —","1. Iniciar sesión como Carlos
+2. Consultar el saldo",Saldo de Carlos: $70.000 ($50.000 + $20.000),No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,13,Verificar: verificar que el movimiento aparezca en el historial de ambos usuarios,"Precondiciones: CP-F-01 ejecutado con éxito
+
+Datos: —","1. Revisar el historial de Ana
+2. Revisar el historial de Carlos",Ana: movimiento de salida por $20.000 hacia 3104445566. Carlos: movimiento de entrada por $20.000 desde 3001112233. Ambos con fecha y hora,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,14,Verificar: verificar que una transacción fallida no afecte ningún saldo,"Precondiciones: Ana autenticada, saldo $100.000
+
+Datos: 3104445566 · $100.001","1. Ejecutar CP-F-10 (envío que falla)
+2. Consultar el saldo y el historial de Ana y de Carlos","Saldos sin cambios (Ana $100.000, Carlos $50.000). No aparece ningún movimiento nuevo en los historiales",No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,15,Verificar: intentar enviar dinero al propio número de celular,"Precondiciones: Ana autenticada, saldo $100.000
+
+Datos: 3001112233 (propio) · $20.000",Pasos 1 a 4 de CP-F-01,Mensaje: no puedes enviarte dinero a ti mismo. Ningún saldo cambia,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,16,Verificar: intentar enviar dinero a un número no registrado,"Precondiciones: Ana autenticada, saldo $100.000
+
+Datos: 3209998877 · $20.000",Pasos 1 a 4 de CP-F-01,Mensaje: el número no está registrado en MakersPay. Ningún saldo cambia,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,17,Verificar: intentar enviar a un celular con formato inválido,"Precondiciones: Ana autenticada
+
+Datos: 300123456 (9 dígitos) · 30011122ab · 2001112233 · campo vacío",Pasos 1 y 2 de CP-F-01 con cada dato,Mensaje de formato de celular inválido en cada caso. No permite continuar,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,18,"Verificar: intentar enviar montos no válidos (cero, negativos, decimales o texto)","Precondiciones: Ana autenticada
+
+Datos: $0 · −$10.000 · $5.000,50 · ""abc""",Pasos 1 a 3 de CP-F-01 con cada dato,El campo rechaza el valor o muestra mensaje de monto inválido. No permite continuar,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,19,"Verificar: tocar ""Enviar"" dos veces seguidas","Precondiciones: Ana autenticada, saldo $100.000
+
+Datos: 3104445566 · $20.000","1. Completar los pasos 1 a 3 de CP-F-01
+2. Tocar ""Confirmar"" dos veces seguidas muy rápido",Se procesa una sola transacción. Saldo de Ana: $80.000. Un solo movimiento en el historial,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,20,Verificar: perder la conexión a internet al confirmar el envío,"Precondiciones: Ana autenticada, saldo $100.000
+
+Datos: 3104445566 · $20.000","1. Completar los pasos 1 a 3 de CP-F-01
+2. Activar el modo avión
+3. Tocar ""Confirmar""
+4. Desactivar el modo avión",Mensaje claro de falta de conexión. Los saldos quedan consistentes: o la transacción se completa en ambos lados o no se realiza en ninguno (ver P-05),No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,21,Verificar: intentar enviar con la sesión expirada,"Precondiciones: Ana autenticada y sesión expirada antes de confirmar
+
+Datos: 3104445566 · $20.000","1. Completar los pasos 1 a 3 de CP-F-01
+2. Esperar a que expire la sesión
+3. Tocar ""Confirmar""",La app pide iniciar sesión de nuevo y la transacción no se procesa,No ejecutado (MakersPay es un producto ficticio),Not executed,
+MakersPay,22,Verificar: enviar dinero desde distintas plataformas y navegadores,"Precondiciones: Ana autenticada, saldo $100.000, en cada plataforma
+
+Datos: 3104445566 · $20.000","Pasos 1 a 4 de CP-F-01 en: Android, iOS, Chrome, Safari",El envío es exitoso y se comporta igual en todas las plataformas. Saldo de Ana: $80.000 en cada ejecución (restaurando el saldo entre pruebas),No ejecutado (MakersPay es un producto ficticio),Not executed,

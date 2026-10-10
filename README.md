@@ -1,226 +1,180 @@
 # Prueba técnica QA Full Stack – Makers Solutions
 
-Solución de la prueba técnica para el rol de **QA Full Stack**, organizada en tres módulos: automatización de UI, pruebas de API y diseño de pruebas funcionales.
+Andrea Rivera Amador · [LinkedIn](https://linkedin.com/in/andrea-rivera-qa) · Octubre 2026
 
-**Autora:** Andrea Rivera Amador · [LinkedIn](https://linkedin.com/in/andrea-rivera-qa) · Octubre 2026
+Este repositorio contiene mi solución a la prueba técnica para el cargo de QA Full Stack. La prueba tenía tres partes y las organicé en carpetas separadas:
+
+- `automatizacion-ui/`: smoke test del login de SauceDemo con Selenium y Python.
+- `api/`: pruebas del API de reqres.in, primero en Postman y luego automatizadas con pytest.
+- `funcional/`: diseño de pruebas para MakersPay, la billetera ficticia del enunciado.
+
+Las evidencias, los reportes y la matriz de ejecución están en `evidencias/`.
 
 ---
 
-## 🧭 Plan de pruebas
+## Plan de pruebas
 
-### Objetivo
-Validar la calidad de tres frentes: el inicio de sesión de SauceDemo (UI), el flujo de creación y consulta de usuarios de la API reqres.in, y el diseño de pruebas para la funcionalidad de envío de dinero de MakersPay.
+**Objetivo.** Verificar el inicio de sesión de SauceDemo, el flujo de creación y consulta de usuarios del API de reqres.in, y dejar diseñadas las pruebas del envío de dinero en MakersPay.
 
-### Alcance
+**Alcance**
 
-| Módulo | Dentro del alcance | Fuera del alcance |
+| Módulo | Qué probé | Qué quedó por fuera |
 |---|---|---|
-| **Automatización UI** | Login: exitoso, contraseña incorrecta, campos obligatorios, usuario bloqueado e inexistente | Carrito, checkout y demás flujos de la tienda |
-| **API** | `POST /users`, `GET /users/{id}`, casos negativos y de autenticación | Otros endpoints de reqres.in y pruebas de carga |
-| **Funcional** | Diseño de pruebas del envío de dinero de MakersPay | Ejecución (MakersPay es un producto ficticio) |
+| UI (SauceDemo) | Login exitoso, contraseña incorrecta, campos obligatorios, usuario bloqueado y usuario inexistente | Carrito, checkout y el resto de la tienda |
+| API (reqres.in) | `POST /users`, `GET /users/{id}`, casos negativos y autenticación | Otros endpoints y pruebas de carga |
+| Funcional (MakersPay) | Análisis del requerimiento y diseño de escenarios, casos, bugs y Gherkin | La ejecución, porque la aplicación no existe |
 
-### Enfoque
+**Enfoque y herramientas**
 
-| Módulo | Tipo de prueba | Herramientas |
-|---|---|---|
-| Automatización UI | Smoke test funcional, positivo y negativo | Selenium WebDriver, Python, pytest, Page Object Model |
-| API | Funcional, negativa y de seguridad (autenticación) | Postman (manual) y pytest + requests (automatizada) |
-| Funcional | Diseño con partición de equivalencia, valores límite, tabla de decisión, transición de estados y adivinación de errores | Documentación en Markdown y escenarios BDD en Gherkin |
+- UI: pruebas automatizadas con Selenium WebDriver, pytest y Page Object Model.
+- API: pruebas manuales en Postman y luego automatizadas con pytest y requests.
+- Funcional: partición de equivalencia, valores límite, tabla de decisión, transición de estados y adivinación de errores. Los escenarios principales están escritos en Gherkin.
 
-### Ambiente
-- macOS · Python 3.14 · Google Chrome (driver gestionado por Selenium Manager)
-- SauceDemo: https://www.saucedemo.com · reqres.in: https://reqres.in/api (requiere `x-api-key` gratuita)
+**Ambiente.** macOS, Python 3.14 y Google Chrome. SauceDemo en https://www.saucedemo.com y reqres.in en https://reqres.in/api, que ahora pide una clave gratuita en el header `x-api-key`.
 
-### Criterios de entrada
-- Ambientes de SauceDemo y reqres.in disponibles.
-- Clave de API configurada en `.env` y dependencias instaladas (`requirements.txt`).
+**Criterios de entrada.** Los sitios de SauceDemo y reqres.in disponibles, la clave del API configurada en `.env` y las dependencias instaladas.
 
-### Criterios de salida
-- 100% de los casos de los módulos UI y API ejecutados.
-- Toda falla documentada como hallazgo con su evidencia y registrada como Issue.
+**Criterios de salida.** Todos los casos de UI y API ejecutados, y cada falla documentada con su evidencia y registrada como Issue.
 
-### Riesgos identificados
-- reqres.in es una API de demostración: no guarda los datos creados (ver H-01).
-- Servicios externos pueden cambiar o no estar disponibles sin aviso (por ejemplo, el nuevo requisito de `x-api-key`).
-- MakersPay no existe: sus casos quedan diseñados, pero no ejecutados.
+**Casos de prueba y ejecución.** Los documenté en [`MATRIZ_EJECUCION_PRUEBAS.xlsx`](evidencias/MATRIZ_EJECUCION_PRUEBAS.xlsx), con una hoja por módulo: datos de la prueba, pasos, resultado esperado, resultado obtenido, estatus y enlace al defecto. La misma información está en [CSV](evidencias/MATRIZ_EJECUCION_PRUEBAS.csv) para verla directamente en GitHub.
 
-### Entregables
-Código de automatización, colección de Postman, evidencias (Markdown y PDF), reporte HTML de pytest, [matriz de ejecución](evidencias/MATRIZ_EJECUCION_PRUEBAS.csv), documento funcional, escenarios Gherkin, Issues y tablero de seguimiento.
+**Riesgos**
+
+- reqres.in es un API de demostración y no guarda lo que se crea (ver H-01).
+- Los servicios externos pueden cambiar sin aviso; durante la prueba reqres.in empezó a exigir `x-api-key`.
+- Los casos de MakersPay quedan diseñados, pero no se pueden ejecutar.
 
 ---
 
-## 📊 Resumen de resultados
+## Resultados
 
-| Módulo | Sobre qué | Resultado |
-|---|---|---|
-| **Automatización UI** | Smoke test de login en [SauceDemo](https://www.saucedemo.com/) | ✅ 7 de 7 pruebas pasan |
-| **API** | Usuarios en [reqres.in](https://reqres.in/) | ✅ 4 pasan · ⚠️ 2 fallas esperadas y documentadas (`xfail`) |
-| **Funcional** | Billetera ficticia **MakersPay** | 📝 20 escenarios · 22 casos de prueba · 2 bugs · Gherkin |
+| Módulo | Resultado |
+|---|---|
+| UI (SauceDemo) | 7 de 7 pruebas pasan |
+| API (reqres.in) | De 6 pruebas, 4 pasan y 2 fallan por hallazgos que documenté (en pytest están como `xfail`) |
+| Funcional (MakersPay) | 20 escenarios, 22 casos de prueba, 2 bugs ficticios y escenarios en Gherkin |
 
-📄 Reporte HTML completo de la ejecución: [`evidencias/reporte_completo.html`](evidencias/reporte_completo.html) *(descárgalo y ábrelo en el navegador)*
-
-📊 Matriz de ejecución caso por caso: [`evidencias/MATRIZ_EJECUCION_PRUEBAS.csv`](evidencias/MATRIZ_EJECUCION_PRUEBAS.csv) · [versión Excel](evidencias/MATRIZ_EJECUCION_PRUEBAS.xlsx)
-
-📋 Tablero de seguimiento de bugs: [GitHub Projects – Prueba técnica QA](https://github.com/users/ariveraandrea1-ctrl/projects/1)
-
-🐞 Bugs y hallazgos registrados como [Issues](https://github.com/ariveraandrea1-ctrl/prueba-tecnica-qa-makers/issues)
+- Casos de prueba y ejecución: [Excel](evidencias/MATRIZ_EJECUCION_PRUEBAS.xlsx) y [CSV](evidencias/MATRIZ_EJECUCION_PRUEBAS.csv)
+- Reporte de pytest: [`reporte_completo.html`](evidencias/reporte_completo.html) (hay que descargarlo y abrirlo en el navegador)
+- Bugs y hallazgos: [Issues del repositorio](https://github.com/ariveraandrea1-ctrl/prueba-tecnica-qa-makers/issues), organizados en este [tablero de GitHub Projects](https://github.com/users/ariveraandrea1-ctrl/projects/1)
 
 ---
 
-## 🗂️ Estructura del proyecto
+## Cómo ejecutar las pruebas
 
-```
-prueba-tecnica-qa-makers/
-├── automatizacion-ui/          # Módulo de automatización (Selenium + POM)
-│   ├── pages/                  # Page Objects: login e inventario
-│   └── tests/                  # Pruebas de login (smoke test)
-├── api/                        # Módulo de API
-│   ├── tests/                  # Pruebas automatizadas con pytest + requests
-│   └── postman/                # Colección de Postman exportada
-├── funcional/                  # Módulo funcional (MakersPay)
-│   ├── PRUEBAS_FUNCIONALES_MAKERSPAY.md
-│   └── makerspay_envio_dinero.feature
-├── evidencias/                 # Evidencias y reportes
-│   ├── EVIDENCIAS_API.md       # Evidencias de las pruebas de API en Postman
-│   ├── MATRIZ_EJECUCION_PRUEBAS.csv / .xlsx  # Ejecución caso por caso
-│   ├── capturas/               # Capturas de Postman y de las pruebas de UI
-│   └── reporte_completo.html   # Reporte de pytest
-├── .env.example                # Plantilla de variables de entorno
-├── pytest.ini                  # Configuración de pytest
-└── requirements.txt            # Dependencias de Python
-```
-
----
-
-## 🛠️ Tecnologías
-
-- **Python 3** · **pytest** · **pytest-html**
-- **Selenium WebDriver** con el patrón **Page Object Model**
-- **requests** para las pruebas de API
-- **Postman** para las pruebas manuales de API
-- **Gherkin** para la especificación BDD
-- **python-dotenv** para el manejo seguro de credenciales
-
----
-
-## ▶️ Cómo ejecutar las pruebas
-
-### 1. Clonar el repositorio
+Necesitas Python 3 y Google Chrome. Selenium descarga el driver automáticamente.
 
 ```bash
 git clone https://github.com/ariveraandrea1-ctrl/prueba-tecnica-qa-makers.git
 cd prueba-tecnica-qa-makers
-```
-
-### 2. Crear el entorno virtual e instalar dependencias
-
-```bash
 python3 -m venv venv
 source venv/bin/activate        # En Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 3. Configurar la clave de la API
-
-La API de reqres.in requiere una clave gratuita, que se obtiene en [app.reqres.in](https://app.reqres.in/api-keys).
+Las pruebas de API necesitan una clave gratuita de reqres.in, que se crea en [app.reqres.in](https://app.reqres.in/api-keys). Copia la plantilla y pon tu clave:
 
 ```bash
 cp .env.example .env
 ```
 
-Luego abre `.env` y reemplaza el valor por tu clave:
-
 ```
 REQRES_API_KEY=tu_clave_de_reqres
 ```
 
-> El archivo `.env` está excluido del repositorio para no exponer credenciales.
+El archivo `.env` está en el `.gitignore`, así que la clave no se sube al repositorio.
 
-### 4. Ejecutar
+Para correr las pruebas:
 
 ```bash
-# Todas las pruebas (API + UI) con reporte HTML
+# Todo (API + UI) con reporte HTML
 python -m pytest -v --html=evidencias/reporte_completo.html --self-contained-html
 
-# Solo las pruebas de API
+# Solo API
 python -m pytest api/tests -v
 
 # Solo el smoke test de UI
 python -m pytest -m smoke -v
 
-# UI sin abrir el navegador (modo headless)
+# UI sin abrir el navegador
 HEADLESS=true python -m pytest automatizacion-ui/tests -v
 ```
 
-> Requiere Google Chrome instalado. Selenium Manager descarga automáticamente el driver.
-
 ---
 
-## 🤖 Módulo 1: Automatización UI (SauceDemo)
+## 1. Automatización UI (SauceDemo)
 
-Smoke test del inicio de sesión con **Selenium + pytest**, aplicando el patrón **Page Object Model**.
+Automaticé el smoke test del login con Selenium y pytest. Además de los tres casos que pedía el enunciado, agregué el usuario bloqueado y un usuario que no existe.
 
 | ID | Caso | Resultado |
 |---|---|---|
-| CP-UI-01 | Login exitoso con credenciales válidas | ✅ |
-| CP-UI-02 | Login fallido con contraseña incorrecta | ✅ |
-| CP-UI-03 | Campos obligatorios: ambos vacíos, usuario vacío, contraseña vacía | ✅ ✅ ✅ |
-| CP-UI-04 | Usuario bloqueado *(caso adicional)* | ✅ |
-| CP-UI-05 | Usuario inexistente *(caso adicional)* | ✅ |
+| CP-UI-01 | Login exitoso | Pasó |
+| CP-UI-02 | Contraseña incorrecta | Pasó |
+| CP-UI-03 | Campos obligatorios (ambos vacíos, usuario vacío, contraseña vacía) | Pasó (3 de 3) |
+| CP-UI-04 | Usuario bloqueado | Pasó |
+| CP-UI-05 | Usuario inexistente | Pasó |
 
-**Buenas prácticas aplicadas:**
+Algunas decisiones que tomé:
 
-- **Page Object Model:** los localizadores están separados de las pruebas.
-- **Esperas explícitas** (`WebDriverWait`) en lugar de pausas fijas.
-- **Localizadores estables** (`id` y `data-test`).
-- **Fixtures de pytest:** un navegador nuevo por prueba, con cierre garantizado.
-- **Captura automática** de pantalla al final de cada prueba (`evidencias/capturas/ui/`).
-- **`parametrize`** para cubrir varias combinaciones sin repetir código.
-
----
-
-## 🔌 Módulo 2: API (reqres.in)
-
-Flujo solicitado: `POST /users` → extraer el `id` → `GET /users/{id}` → validar `name` y `job`.
-
-| ID | Caso | Esperado | Obtenido | Estado |
-|---|---|---|---|---|
-| CP-API-01 | Crear usuario | 201 | 201 | ✅ |
-| CP-API-02 | Consultar usuario creado | 200 | 404 | ⚠️ `xfail` (H-01) |
-| CP-API-03 | Consultar usuario existente | 200 | 200 | ✅ |
-| CP-API-04 | Consultar usuarios inexistentes (23 y 999) | 404 | 404 | ✅ |
-| CP-API-05 | Crear usuario sin API key | 401 / 403 | 201 | ⚠️ `xfail` (H-02) |
-
-### Hallazgos
-
-| ID | Hallazgo | Severidad |
-|---|---|---|
-| **H-01** | El usuario creado con `POST` no se puede consultar con `GET`: la API es de demostración y no guarda los datos | Media |
-| **H-02** | El endpoint permite crear usuarios **sin** `x-api-key`, aunque la documentación indica que es obligatoria | Alta |
-| **H-03** | El `id` se devuelve como texto en `POST` y como número en `GET` | Baja |
-| **H-04** | La respuesta `404` llega sin mensaje de error | Baja |
-
-> Las pruebas CP-API-02 y CP-API-05 están marcadas como `xfail` (falla esperada) con la referencia a su hallazgo. Usan `strict=True`, así que si el comportamiento de la API cambia, pytest lo notifica.
-
-📄 Evidencias detalladas con capturas: [`evidencias/EVIDENCIAS_API.md`](evidencias/EVIDENCIAS_API.md)
-
-### Colección de Postman
-
-Importa [`api/postman/reqres_collection.json`](api/postman/reqres_collection.json) en Postman y crea un **Environment** con la variable `api_key` y tu clave de reqres.in.
+- Usé Page Object Model para que los localizadores estén en `pages/` y no repartidos por las pruebas.
+- Las esperas son explícitas (`WebDriverWait`), sin `sleep`.
+- Los localizadores usan `id` y `data-test`, que son los más estables en SauceDemo.
+- Cada prueba abre un navegador nuevo y guarda una captura al terminar en `evidencias/capturas/ui/`.
+- Los casos de campos obligatorios usan `parametrize` para no repetir código.
 
 ---
 
-## 📝 Módulo 3: Pruebas funcionales (MakersPay)
+## 2. API (reqres.in)
 
-**MakersPay** es una billetera digital ficticia definida en el enunciado. Este módulo presenta el **diseño** de las pruebas:
+El enunciado pedía crear un usuario con `POST /users`, tomar el `id` y consultarlo con `GET /users/{id}`. Primero lo probé en Postman y luego lo automaticé con pytest.
 
-- **Análisis del requerimiento:** 8 reglas de negocio y 12 preguntas o ambigüedades, con los supuestos asumidos.
-- **Técnicas:** partición de equivalencia, valores límite, tabla de decisión, transición de estados y adivinación de errores.
-- **Tipos de prueba:** funcional, negativa, integración, seguridad, usabilidad, compatibilidad, concurrencia, regresión y API.
-- **20 escenarios y 22 casos de prueba** con datos concretos y trazabilidad a las reglas.
-- **2 bugs ficticios críticos:** saldo descontado sin acreditar al destinatario, y botón "Confirmar" deshabilitado en Android.
-- **Escenarios en Gherkin** (BDD), incluido un esquema con tabla de ejemplos para los valores límite.
+| ID | Caso | Esperado | Obtenido |
+|---|---|---|---|
+| CP-API-01 | Crear usuario | 201 | 201 |
+| CP-API-02 | Consultar el usuario creado | 200 | 404 |
+| CP-API-03 | Consultar un usuario existente | 200 | 200 |
+| CP-API-04 | Consultar usuarios inexistentes (23 y 999) | 404 | 404 |
+| CP-API-05 | Crear usuario sin `x-api-key` | 401 o 403 | 201 |
 
-📄 [`funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md`](funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md)
+En el camino encontré cuatro cosas:
 
-🥒 [`funcional/makerspay_envio_dinero.feature`](funcional/makerspay_envio_dinero.feature)
+- **H-01 (media):** el usuario creado con `POST` no se puede consultar con `GET` porque reqres.in no guarda los datos. Es una limitación del entorno, pero impide validar el flujo completo.
+- **H-02 (alta):** el `POST` acepta solicitudes sin `x-api-key`, aunque la documentación dice que es obligatoria.
+- **H-03 (baja):** el `id` llega como texto en el `POST` y como número en el `GET`.
+- **H-04 (baja):** el `404` llega con el body vacío, sin mensaje de error.
+
+Las pruebas de CP-API-02 y CP-API-05 están marcadas como `xfail` con la referencia al hallazgo. Usé `strict=True` para que pytest avise si el comportamiento del API cambia y la prueba empieza a pasar.
+
+Las capturas de Postman y el detalle de cada caso están en [`EVIDENCIAS_API.md`](evidencias/EVIDENCIAS_API.md) (también en PDF). La colección de Postman está en [`api/postman/reqres_collection.json`](api/postman/reqres_collection.json); para usarla hay que crear un Environment con la variable `api_key`.
+
+---
+
+## 3. Pruebas funcionales (MakersPay)
+
+MakersPay es una billetera ficticia, así que en este módulo no hay ejecución: el trabajo está en el diseño. En [`PRUEBAS_FUNCIONALES_MAKERSPAY.md`](funcional/PRUEBAS_FUNCIONALES_MAKERSPAY.md) (también en PDF) están:
+
+- Las 8 reglas de negocio que saqué del requerimiento y 12 preguntas que le haría al equipo, con los supuestos que tomé mientras tanto.
+- Las técnicas que usé y los tipos de prueba que aplicarían.
+- 20 escenarios y 22 casos de prueba con datos concretos.
+- 2 bugs ficticios: un envío que descuenta el saldo pero no le llega al destinatario, y el botón "Confirmar" que no se habilita en Android.
+
+Los escenarios principales también están en Gherkin, en [`makerspay_envio_dinero.feature`](funcional/makerspay_envio_dinero.feature).
+
+---
+
+## Estructura
+
+```
+prueba-tecnica-qa-makers/
+├── automatizacion-ui/
+│   ├── pages/            # Page Objects (login e inventario)
+│   └── tests/            # Pruebas de login
+├── api/
+│   ├── tests/            # Pruebas con pytest + requests
+│   └── postman/          # Colección de Postman
+├── funcional/            # Documento de MakersPay (md y pdf) y archivo .feature
+├── evidencias/           # Evidencias de API, capturas, matriz de ejecución y reporte HTML
+├── .env.example
+├── pytest.ini
+└── requirements.txt
+```
