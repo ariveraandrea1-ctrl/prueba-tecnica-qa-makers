@@ -62,7 +62,7 @@ Las evidencias, los reportes y la matriz de ejecución están en `evidencias/`.
 
 ## Cómo ejecutar las pruebas
 
-Necesitas Python 3 y Google Chrome. Selenium descarga el driver automáticamente.
+Necesitas Python 3.10 o superior (lo probé con Python 3.14) y Google Chrome. Selenium descarga el driver automáticamente.
 
 ```bash
 git clone https://github.com/ariveraandrea1-ctrl/prueba-tecnica-qa-makers.git
@@ -71,6 +71,8 @@ python3 -m venv venv
 source venv/bin/activate        # En Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
+
+En `requirements.txt` solo están las dependencias directas del proyecto; pip instala el resto automáticamente.
 
 Las pruebas de API necesitan una clave gratuita de reqres.in, que se crea en [app.reqres.in](https://app.reqres.in/api-keys). Copia la plantilla y pon tu clave:
 
@@ -158,7 +160,7 @@ MakersPay es una billetera ficticia, así que en este módulo no hay ejecución:
 - 20 escenarios y 22 casos de prueba con datos concretos.
 - 2 bugs ficticios: un envío que descuenta el saldo pero no le llega al destinatario, y el botón "Confirmar" que no se habilita en Android.
 
-Los escenarios principales también están en Gherkin, en [`makerspay_envio_dinero.feature`](funcional/makerspay_envio_dinero.feature).
+Los escenarios principales también están en Gherkin, en [`makerspay_envio_dinero.feature`](funcional/makerspay_envio_dinero.feature). Ese archivo es una especificación en formato BDD: no tiene un runner porque la aplicación no existe, pero los escenarios quedan listos para automatizarse con behave o pytest-bdd.
 
 ---
 

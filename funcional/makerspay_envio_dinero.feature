@@ -1,4 +1,7 @@
 # language: es
+# Especificación de comportamiento (BDD). Este archivo no tiene un runner: MakersPay es un
+# producto ficticio, así que los escenarios documentan el comportamiento esperado y quedan
+# listos para automatizarse con una herramienta como behave o pytest-bdd cuando exista la app.
 @makerspay @envio_dinero
 Característica: Envío de dinero entre usuarios de MakersPay
   Como usuario autenticado de MakersPay
