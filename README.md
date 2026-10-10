@@ -6,6 +6,49 @@ Solución de la prueba técnica para el rol de **QA Full Stack**, organizada en 
 
 ---
 
+## 🧭 Plan de pruebas
+
+### Objetivo
+Validar la calidad de tres frentes: el inicio de sesión de SauceDemo (UI), el flujo de creación y consulta de usuarios de la API reqres.in, y el diseño de pruebas para la funcionalidad de envío de dinero de MakersPay.
+
+### Alcance
+
+| Módulo | Dentro del alcance | Fuera del alcance |
+|---|---|---|
+| **Automatización UI** | Login: exitoso, contraseña incorrecta, campos obligatorios, usuario bloqueado e inexistente | Carrito, checkout y demás flujos de la tienda |
+| **API** | `POST /users`, `GET /users/{id}`, casos negativos y de autenticación | Otros endpoints de reqres.in y pruebas de carga |
+| **Funcional** | Diseño de pruebas del envío de dinero de MakersPay | Ejecución (MakersPay es un producto ficticio) |
+
+### Enfoque
+
+| Módulo | Tipo de prueba | Herramientas |
+|---|---|---|
+| Automatización UI | Smoke test funcional, positivo y negativo | Selenium WebDriver, Python, pytest, Page Object Model |
+| API | Funcional, negativa y de seguridad (autenticación) | Postman (manual) y pytest + requests (automatizada) |
+| Funcional | Diseño con partición de equivalencia, valores límite, tabla de decisión, transición de estados y adivinación de errores | Documentación en Markdown y escenarios BDD en Gherkin |
+
+### Ambiente
+- macOS · Python 3.14 · Google Chrome (driver gestionado por Selenium Manager)
+- SauceDemo: https://www.saucedemo.com · reqres.in: https://reqres.in/api (requiere `x-api-key` gratuita)
+
+### Criterios de entrada
+- Ambientes de SauceDemo y reqres.in disponibles.
+- Clave de API configurada en `.env` y dependencias instaladas (`requirements.txt`).
+
+### Criterios de salida
+- 100% de los casos de los módulos UI y API ejecutados.
+- Toda falla documentada como hallazgo con su evidencia y registrada como Issue.
+
+### Riesgos identificados
+- reqres.in es una API de demostración: no guarda los datos creados (ver H-01).
+- Servicios externos pueden cambiar o no estar disponibles sin aviso (por ejemplo, el nuevo requisito de `x-api-key`).
+- MakersPay no existe: sus casos quedan diseñados, pero no ejecutados.
+
+### Entregables
+Código de automatización, colección de Postman, evidencias (Markdown y PDF), reporte HTML de pytest, [matriz de ejecución](evidencias/MATRIZ_EJECUCION_PRUEBAS.csv), documento funcional, escenarios Gherkin, Issues y tablero de seguimiento.
+
+---
+
 ## 📊 Resumen de resultados
 
 | Módulo | Sobre qué | Resultado |
@@ -15,6 +58,8 @@ Solución de la prueba técnica para el rol de **QA Full Stack**, organizada en 
 | **Funcional** | Billetera ficticia **MakersPay** | 📝 20 escenarios · 22 casos de prueba · 2 bugs · Gherkin |
 
 📄 Reporte HTML completo de la ejecución: [`evidencias/reporte_completo.html`](evidencias/reporte_completo.html) *(descárgalo y ábrelo en el navegador)*
+
+📊 Matriz de ejecución caso por caso: [`evidencias/MATRIZ_EJECUCION_PRUEBAS.csv`](evidencias/MATRIZ_EJECUCION_PRUEBAS.csv) · [versión Excel](evidencias/MATRIZ_EJECUCION_PRUEBAS.xlsx)
 
 📋 Tablero de seguimiento de bugs: [GitHub Projects – Prueba técnica QA](https://github.com/users/ariveraandrea1-ctrl/projects/1)
 
@@ -37,6 +82,7 @@ prueba-tecnica-qa-makers/
 │   └── makerspay_envio_dinero.feature
 ├── evidencias/                 # Evidencias y reportes
 │   ├── EVIDENCIAS_API.md       # Evidencias de las pruebas de API en Postman
+│   ├── MATRIZ_EJECUCION_PRUEBAS.csv / .xlsx  # Ejecución caso por caso
 │   ├── capturas/               # Capturas de Postman y de las pruebas de UI
 │   └── reporte_completo.html   # Reporte de pytest
 ├── .env.example                # Plantilla de variables de entorno
